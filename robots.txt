@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://aydea0260.github.io/llama-pajamas/sitemap.xml
