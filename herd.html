@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meet the Herd — Llama Pajamas™</title>
+<link rel="icon" href="assets/img/logo.png">
+<link rel="stylesheet" href="assets/css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="site-header"></div>
+<div class="wrap">
+  <div class="crumbs"><a href="index.html">Home</a> / <span>Meet the Herd</span></div>
+  <div class="sec"><h2>Meet the Herd 🦙</h2>
+    <p>Six llamas. Six personalities. One rule: poses may change, but who they are never does.</p></div>
+  <div class="herd-grid" id="herdGrid"></div>
+  <div class="story">
+    <div>
+      <h2>The master symbol</h2>
+      <p>Every herd member is built from the same simple recipe: upright ears, a fluffy cloud forehead, two sleepy happy eyes, and a rounded snout. One symbol, endless variations — from Paco's flopped ear to Puff's perfect plush-ball roundness.</p>
+      <p>That's what makes the herd <b>ownable</b>: no other brand has this family.</p>
+      <a class="btn navy" href="shop.html">Shop the Herd →</a>
+    </div>
+    <img src="assets/img/logo.png" alt="Llama Pajamas master symbol" style="max-height:320px;margin:0 auto">
+  </div>
+</div>
+<div id="site-footer"></div>
+<script src="assets/js/app.js"></script>
+<script>
+inject("herd");
+document.getElementById("herdGrid").innerHTML = HERD.map(h=>
+  `<div class="herd-card"><img src="${h.img}" alt="${h.name}" loading="lazy">
+   <div class="role">${h.role}</div><h3>"${h.name}"</h3><p>${h.bio}</p></div>`).join("");
+</script>
+</body>
+</html>
