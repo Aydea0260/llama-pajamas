@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Llama Pajamas™ — One herd. A million dreams.</title>
+<meta name="description" content="Llama Pajamas™ — original llama characters on buttery-soft apparel for the whole family. Meet Paco, Lola, Lumi, Lio, Lulu & Puff.">
+<link rel="icon" href="assets/img/logo.png">
+<link rel="stylesheet" href="assets/css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="site-header"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <img src="assets/img/hero.jpg" alt="Llama Pajamas — One herd. A million dreams.">
+  <div class="hero-overlay"><div class="hero-copy">
+    <h1>One herd.<br>A million dreams.</h1>
+    <p>Meet the six llamas turning bedtime into the best time — on the softest tees your family will ever fight over.</p>
+    <a class="btn" href="shop.html?c=new">Shop New Arrivals</a>
+  </div></div>
+</section>
+
+<div class="wrap">
+  <!-- CATEGORY TILES -->
+  <div class="tiles">
+    <div class="tile" onclick="location.href='shop.html?c=new'"><img src="assets/img/products/puff-light.jpg" alt="New Arrivals"><span>New Arrivals →</span></div>
+    <div class="tile" onclick="location.href='shop.html?c=kids'"><img src="assets/img/products/small-dreams.jpg" alt="The Sleepy Shop"><span>The Sleepy Shop →</span></div>
+    <div class="tile" onclick="location.href='shop.html'"><img src="assets/img/products/grandma-squad.jpg" alt="Family Matching"><span>Family Matching →</span></div>
+  </div>
+
+  <!-- TRUST BADGES -->
+  <div class="badges">
+    <div class="badge"><span class="em">🦙</span>Six original characters, one lovable herd</div>
+    <div class="badge"><span class="em">☁️</span>Buttery-soft premium cotton</div>
+    <div class="badge"><span class="em">🌱</span>Printed to order — zero waste</div>
+    <div class="badge"><span class="em">👨‍👩‍👧‍👦</span>Matching sets for the whole family</div>
+  </div>
+
+  <!-- PRESS QUOTES -->
+  <div class="sec"><h2>Everyone's talking about the herd</h2></div>
+  <div class="quotes" id="quotes"></div>
+
+  <!-- REVIEWS -->
+  <div class="sec"><h2>⭐ Loved by the herd <span style="font-size:16px;color:var(--ink-soft)">4.9/5 from 2,300+ happy families</span></h2></div>
+  <div class="quotes" id="reviews" style="grid-template-columns:repeat(5,1fr)"></div>
+
+  <!-- STORY -->
+  <div class="story" id="story">
+    <img src="assets/img/herd/lola.jpg" alt="Lola — Mama Llama">
+    <div>
+      <h2>Why llamas? Because bedtime needed a family.</h2>
+      <p>Instead of just printing a llama on a shirt, we built a whole family of them — <b>Paco</b> the goofy adventure dad, <b>Lola</b> the warm clever mom, <b>Lumi</b> the chill teen, <b>Lio</b> the explorer kid, <b>Lulu</b> the dreamer, and <b>Puff</b>, the sleepiest baby llama alive.</p>
+      <p>Every character has locked traits, a personality, and a story — so your kids don't just wear a shirt, they join a herd.</p>
+      <a class="btn navy" href="herd.html">Meet the Herd →</a>
+    </div>
+  </div>
+
+  <!-- SHOP BY COLLECTION -->
+  <div class="sec"><h2>Shop by collection</h2><p>No boy-aisle / girl-aisle nonsense — every pattern is made for the whole family.</p></div>
+  <div class="tiles">
+    <div class="tile" onclick="location.href='shop.html?c=kids'"><img src="assets/img/products/good-ideas.jpg" alt="Kids Sets"><span>Kids Sets →</span></div>
+    <div class="tile" onclick="location.href='shop.html?c=grandma'"><img src="assets/img/products/grandma-love.jpg" alt="Grandma Collection"><span>Grandma →</span></div>
+    <div class="tile" onclick="location.href='shop.html?c=grandpa'"><img src="assets/img/products/grandpa-best.jpg" alt="Grandpa Collection"><span>Grandpa →</span></div>
+  </div>
+
+  <!-- NEW ARRIVALS -->
+  <div class="sec"><h2>New arrivals</h2><p>Fresh from the Alo Chill capsule — Lumi & Puff lead the drop.</p></div>
+  <div class="grid" id="newGrid"></div>
+  <div style="text-align:center;margin:6px 0 10px"><a class="btn ghost" href="shop.html">Shop All →</a></div>
+
+  <!-- PROMISE -->
+  <div class="promise" id="promise">
+    <h2>🤍 The Llama Promise</h2>
+    <p>Every month, we donate cozy pajama sets to children in family shelters — because every kid deserves to fall asleep feeling safe, warm, and part of a herd.</p>
+    <a class="btn" href="herd.html">Why we do it</a>
+  </div>
+
+  <!-- NEWSLETTER -->
+  <div class="news">
+    <h2>Join the herd 🦙</h2>
+    <p style="color:var(--ink-soft)">Launch-day access, new character drops, and 10% off your first order.</p>
+    <form onsubmit="event.preventDefault();this.innerHTML='<b style=color:var(--terra)>Welcome to the herd! 🦙 Check your inbox.</b>'">
+      <input type="email" placeholder="your@email.com" required>
+      <button class="btn" type="submit">Join</button>
+    </form>
+  </div>
+</div>
+
+<div id="site-footer"></div>
+<script src="assets/js/app.js"></script>
+<script>
+inject("new");
+document.getElementById("quotes").innerHTML = QUOTES.map(q=>
+  `<div class="quote">"${q.t}"<b>— ${q.s}</b></div>`).join("");
+document.getElementById("reviews").innerHTML = REVIEWS.map(r=>
+  `<div class="quote">★★★★★<br>"${r.t}"<b>— ${r.n}</b></div>`).join("");
+document.getElementById("newGrid").innerHTML =
+  filterProducts("new").concat(PRODUCTS.filter(p=>p.tag==="BEST SELLER")).slice(0,4).map(cardHTML).join("");
+</script>
+</body>
+</html>
