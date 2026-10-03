@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Product — Llama Pajamas™</title>
+<meta name="description" content="Llama Pajamas™ — original llama character apparel. Buy live on Etsy and eBay.">
 <link rel="icon" href="assets/img/logo.png">
 <link rel="stylesheet" href="assets/css/style.css">
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
@@ -27,26 +28,40 @@ document.getElementById("crumbP").textContent = p.name;
 const SIZES = p.coll==="kids" ? ["2T","4T","6Y","8Y","10Y","12Y","14Y"]
   : p.coll.startsWith("grand") ? ["S","M","L","XL","2XL","3XL"]
   : ["2T","4T","6Y","8Y","10Y","12Y","XS","S","M","L","XL","XXL"];
-let size = SIZES[3], qty = 1;
 document.getElementById("pdp").innerHTML = `
   <div class="gal"><img src="${p.img}" alt="${p.name}"></div>
   <div>
-    ${p.tag?`<div class="tag" style="font-size:12px;font-weight:800;letter-spacing:1.5px;color:var(--terra)">${p.tag}</div>`:""}
+    ${p.tag?`<div style="font-size:12px;font-weight:800;letter-spacing:1.5px;color:var(--terra)">${p.tag}</div>`:""}
     <h1>${p.name}</h1>
-    <div class="price">$${p.price.toFixed(2)}</div>
-    <div class="stars" style="color:var(--gold)">★★★★★ <span style="color:var(--ink-soft);font-size:13px">4.9 · 300+ reviews</span></div>
+    <div class="price">from $${p.price.toFixed(2)}</div>
+    <div style="color:var(--gold)">★★★★★ <span style="color:var(--ink-soft);font-size:13px">Design score ${(p.score||0).toFixed(1)}/10</span></div>
     <p class="desc">${p.desc}</p>
-    <div style="font-weight:800;font-size:13px;letter-spacing:1px">SIZE — <span style="color:var(--terra)" id="sizeLabel">${size}</span></div>
-    <div class="sizes" id="sizeRow">${SIZES.map(s=>`<button class="size ${s===size?'sel':''}" onclick="pickSize('${s}')">${s}</button>`).join("")}</div>
-    <div class="qtyrow">
-      <div class="q"><button onclick="chQty(-1)">−</button><span id="qtyN">1</span><button onclick="chQty(1)">+</button></div>
-      <button class="btn" style="flex:1" onclick="addToCart('${p.id}',size,qty)">Add to Cart — $${p.price.toFixed(2)}</button>
+    ${buyButtons(p)}
+    <div style="font-weight:800;font-size:13px;letter-spacing:1px;margin-top:6px">AVAILABLE SIZES <a href="#" onclick="document.getElementById('sizeguide').style.display='flex';return false" style="color:var(--terra);font-weight:600;letter-spacing:0">Size guide</a></div>
+    <div class="sizes">${SIZES.map(s=>`<span class="size" style="cursor:default">${s}</span>`).join("")}</div>
+    <div class="acc">
+      <button onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'">📦 Fabric & fit</button>
+      <div><p class="desc">${p.details}. Printed to order — each piece is made when you buy it, zero waste.</p></div>
+      <button onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'">🚚 Shipping & returns</button>
+      <div><p class="desc">Ships from our print partner in 3–5 business days. Free Etsy shipping on orders over $35. 30-day cozy guarantee — if you don't love it, we'll make it right.</p></div>
+      <button onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'">🦙 About this design</button>
+      <div><p class="desc">An original Llama Pajamas™ character design. ${p.dark?"Artwork optimized for dark garments — that's why the preview has a dark background.":""}</p></div>
     </div>
-    <div class="meta"><b>Fabric:</b> ${p.details}<br><b>Shipping:</b> Free over $50 · printed to order in 3–5 days<br><b>Returns:</b> 30-day cozy guarantee 🦙</div>
-  </div>`;
-function pickSize(s){ size=s; document.getElementById("sizeLabel").textContent=s;
-  document.querySelectorAll(".size").forEach(b=>b.classList.toggle("sel", b.textContent===s)); }
-function chQty(d){ qty=Math.max(1,Math.min(9,qty+d)); document.getElementById("qtyN").textContent=qty; }
+  </div>
+<div id="sizeguide" style="display:none;position:fixed;inset:0;background:rgba(42,33,24,.5);z-index:200;align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)this.style.display='none'">
+  <div style="background:#fff;border-radius:18px;padding:26px;max-width:440px;width:100%">
+    <h3 style="margin-bottom:12px">Size guide</h3>
+    <table style="width:100%;font-size:13.5px;border-collapse:collapse">
+      <tr style="background:var(--cream-2)"><th style="padding:8px;text-align:left">Size</th><th style="padding:8px">Chest</th><th style="padding:8px">Length</th></tr>
+      <tr><td style="padding:8px">2T–4T</td><td style="padding:8px;text-align:center">21–23"</td><td style="padding:8px;text-align:center">14–16"</td></tr>
+      <tr><td style="padding:8px">6Y–8Y</td><td style="padding:8px;text-align:center">25–27"</td><td style="padding:8px;text-align:center">18–20"</td></tr>
+      <tr><td style="padding:8px">10Y–14Y</td><td style="padding:8px;text-align:center">28–32"</td><td style="padding:8px;text-align:center">21–24"</td></tr>
+      <tr><td style="padding:8px">XS–M</td><td style="padding:8px;text-align:center">31–38"</td><td style="padding:8px;text-align:center">27–29"</td></tr>
+      <tr><td style="padding:8px">L–XXL</td><td style="padding:8px;text-align:center">40–48"</td><td style="padding:8px;text-align:center">30–32"</td></tr>
+    </table>
+    <button class="btn" style="margin-top:14px;width:100%" onclick="document.getElementById('sizeguide').style.display='none'">Close</button>
+  </div>
+</div>`;
 document.getElementById("relGrid").innerHTML =
   PRODUCTS.filter(x=>x.id!==p.id && x.coll===p.coll).concat(PRODUCTS.filter(x=>x.id!==p.id && x.coll!==p.coll)).slice(0,4).map(cardHTML).join("");
 </script>
