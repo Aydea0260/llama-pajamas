@@ -1,53 +1,125 @@
-/* LLAMA PAJAMAS™ storefront logic — demo mode (checkout coming soon) */
+/* LLAMA PAJAMAS™ storefront — real buy links (Etsy + eBay), no demo checkout */
+const ETSY_SHOP = "https://www.etsy.com/shop/LatticeEcommerce";
+
 const PRODUCTS = [
- {id:"lumi-chill-dark", name:"Lumi 'Chill Vibes Only' Tee", coll:"alo-chill", collName:"Alo Chill",
-  price:24.95, img:"assets/img/products/lumi-dark.jpg", tag:"NEW",
-  desc:"Lumi doesn't do mornings. You don't have to either. Our teen llama in her signature dusty-blue headphones, printed on buttery-soft premium cotton. The official uniform of doing absolutely nothing, beautifully.",
-  details:"100% ring-spun cotton · Relaxed fit · Sizes 2T–14Y and XS–XXL"},
+ {id:"lumi-chill-dark", name:"Lumi 'Chill Vibes Only' Tee — Dark", coll:"alo-chill", collName:"Alo Chill",
+  price:24.95, img:"assets/img/products/lumi-dark.jpg", tag:"NEW", score:7.8, dark:true,
+  desc:"Lumi doesn't do mornings. You don't have to either. Our teen llama in her signature dusty-blue headphones, printed for dark garments. The official uniform of doing absolutely nothing, beautifully.",
+  details:"100% ring-spun cotton · Relaxed fit · Printed for dark garments", etsy:null, ebay:null},
  {id:"lumi-chill-light", name:"Lumi 'Chill Vibes Only' Tee — Ivory", coll:"alo-chill", collName:"Alo Chill",
-  price:24.95, img:"assets/img/products/lumi-light.jpg", tag:"NEW",
+  price:24.95, img:"assets/img/products/lumi-light.jpg", tag:"NEW", score:8.0,
   desc:"Same iconic chill, lighter canvas. Lumi's half-lidded stare of supreme relaxation on a soft ivory tee that goes with everything in the drawer.",
-  details:"100% ring-spun cotton · Relaxed fit · Sizes 2T–14Y and XS–XXL"},
- {id:"puff-dream-dark", name:"Puff 'Dream Big, Little Llama' Tee", coll:"alo-chill", collName:"Alo Chill",
-  price:22.95, img:"assets/img/products/puff-dark.jpg", tag:"BEST SELLER",
-  desc:"The baby of the herd, curled into the sleepiest little plush-ball pose. 'Dream big, little llama' — because the smallest dreams are the coziest ones.",
-  details:"100% ring-spun cotton · Toddler & youth sizes · Ultra-soft hand feel"},
- {id:"puff-dream-light", name:"Puff 'Dream Big, Little Llama' Tee — Ivory", coll:"alo-chill", collName:"Alo Chill",
-  price:22.95, img:"assets/img/products/puff-light.jpg", tag:"BEST SELLER",
-  desc:"Puff on ivory — maximum snuggle energy. The design that started the whole herd's bedtime revolution.",
-  details:"100% ring-spun cotton · Toddler & youth sizes · Ultra-soft hand feel"},
- {id:"small-dreams", name:"'Small Llama, Big Dreams' Kids Set", coll:"kids", collName:"Kids Sets",
-  price:29.95, img:"assets/img/products/small-dreams.jpg", tag:"NEW",
-  desc:"The whole-herd bedtime mantra. A dreamy print for kids who fall asleep planning tomorrow's adventures.",
-  details:"Soft cotton blend · Two-piece pajama set · Sizes 2T–10Y"},
+  details:"100% ring-spun cotton · Relaxed fit · Sizes 2T–14Y and XS–XXL", etsy:null, ebay:null},
+ {id:"puff-dream-dark", name:"Puff 'Dream Big, Little Llama' — Dark", coll:"alo-chill", collName:"Alo Chill",
+  price:22.95, img:"assets/img/products/puff-dark.jpg", tag:"TOP RATED", score:8.5, dark:true,
+  desc:"The baby of the herd, curled into the sleepiest little plush-ball pose. 'Dream big, little llama' — because the smallest dreams are the coziest ones. Shown as printed on dark garments.",
+  details:"Ultra-soft hand feel · Printed for dark garments",
+  etsy:"https://www.etsy.com/listing/4575916139/llama-pajamas-dream-big-little-llama", ebay:null},
+ {id:"puff-dream-light", name:"Puff 'Dream Big, Little Llama' — Ivory", coll:"alo-chill", collName:"Alo Chill",
+  price:22.95, img:"assets/img/products/puff-light.jpg", tag:"TOP RATED", score:9.0,
+  desc:"Puff on ivory — maximum snuggle energy. The highest-scoring design in the herd: perfect sleepy eyes, perfect plush-ball roundness.",
+  details:"Ultra-soft hand feel · Infant bodysuit & tees",
+  etsy:"https://www.etsy.com/listing/4575916139/llama-pajamas-dream-big-little-llama", ebay:null},
+ {id:"small-dreams", name:"'Small Llama, Big Dreams'", coll:"kids", collName:"Kids Sets",
+  price:29.95, img:"assets/img/products/small-dreams.jpg", tag:"NEW", score:7.5, dark:true,
+  desc:"The whole-herd bedtime mantra. A dreamy print for kids who fall asleep planning tomorrow's adventures. Shown on dark garment.",
+  details:"Soft cotton blend · Printed for dark garments",
+  etsy:"https://www.etsy.com/listing/4575744145/llama-pajamas-infant-bodysuit-small", ebay:null},
  {id:"fueled-ideas", name:"'Fueled by Good Ideas' School Tee", coll:"kids", collName:"Kids Sets",
-  price:21.95, img:"assets/img/products/good-ideas.jpg", tag:"BACK TO SCHOOL",
-  desc:"For the kid whose brain never logs off. Lio-approved explorer energy, classroom-ready.",
-  details:"100% ring-spun cotton · Classic fit · Sizes 4Y–14Y"},
+  price:21.95, img:"assets/img/products/good-ideas.jpg", tag:"BACK TO SCHOOL", score:7.5,
+  desc:"For the kid whose brain never logs off. Lio-approved explorer energy, classroom-ready. (Note: this one's rockin' sunglasses — Lumi's influence.)",
+  details:"100% ring-spun cotton · Classic fit · Sizes 4Y–14Y", etsy:null, ebay:null},
  {id:"read-explore", name:"'Read, Explore, Be Kind' Tee", coll:"kids", collName:"Kids Sets",
-  price:21.95, img:"assets/img/products/read-explore.jpg", tag:"",
-  desc:"Three rules. Zero exceptions. Lola's gentle wisdom, wearable for school, weekends, and everywhere in between.",
-  details:"100% ring-spun cotton · Classic fit · Sizes 4Y–14Y"},
+  price:21.95, img:"assets/img/products/read-explore.jpg", tag:"", score:8.5,
+  desc:"Three rules. Zero exceptions. The reading llama — Lola's gentle wisdom, wearable for school, weekends, and everywhere in between.",
+  details:"100% ring-spun cotton · Classic fit · Sizes 4Y–14Y", etsy:null, ebay:null},
  {id:"school-mode", name:"'School Mode: ON' Tee", coll:"kids", collName:"Kids Sets",
-  price:21.95, img:"assets/img/products/school-mode.jpg", tag:"BACK TO SCHOOL",
-  desc:"Flip the switch. Lumi reluctantly approves this message — school mode looks good on everyone.",
-  details:"100% ring-spun cotton · Classic fit · Sizes 4Y–14Y"},
+  price:21.95, img:"assets/img/products/school-mode.jpg", tag:"BACK TO SCHOOL", score:7.0, dark:true,
+  desc:"Flip the switch. Lumi reluctantly approves this message — school mode looks good on everyone. Shown on dark garment.",
+  details:"100% ring-spun cotton · Printed for dark garments", etsy:null, ebay:null},
  {id:"grandma-love", name:"Grandma 'Fueled by Love' Tee", coll:"grandma", collName:"Grandma Collection",
-  price:26.95, img:"assets/img/products/grandma-love.jpg", tag:"NEW",
+  price:26.95, img:"assets/img/products/grandma-love.jpg", tag:"NEW", score:7.8,
   desc:"The official uniform of grandmas everywhere: powered by love, hugs, and absolutely no bedtime rules. Lola sends her regards.",
-  details:"Soft cotton blend · Relaxed women's fit · Sizes S–3XL"},
+  details:"Soft cotton blend · Relaxed women's fit · Sizes S–3XL", etsy:null, ebay:null},
  {id:"grandma-squad", name:"'Grandma Squad' Matching Tee", coll:"grandma", collName:"Grandma Collection",
-  price:26.95, img:"assets/img/products/grandma-squad.jpg", tag:"",
+  price:26.95, img:"assets/img/products/grandma-squad.jpg", tag:"BEST SELLER", score:8.3,
   desc:"For the grandma squad that shows up matching and leaves glitter everywhere. Family matching starts here.",
-  details:"Soft cotton blend · Relaxed women's fit · Sizes S–3XL"},
+  details:"Soft cotton blend · Relaxed women's fit · Sizes S–3XL", etsy:null, ebay:null},
  {id:"grandpa-best", name:"'Best Grandpa Ever' Tee", coll:"grandpa", collName:"Grandpa Collection",
-  price:26.95, img:"assets/img/products/grandpa-best.jpg", tag:"BEST SELLER",
-  desc:"Paco's official endorsement: this grandpa explored first, napped second, and spoiled the grandkids third. Certified best.",
-  details:"Soft cotton blend · Classic men's fit · Sizes S–3XL"},
+  price:26.95, img:"assets/img/products/grandpa-best.jpg", tag:"", score:6.0, dark:true,
+  desc:"Paco's official endorsement: this grandpa explored first, napped second, and spoiled the grandkids third. Shown on dark garment.",
+  details:"Soft cotton blend · Printed for dark garments", etsy:null, ebay:null},
  {id:"grandpa-hikes", name:"'More Hikes, More Hugs' Tee", coll:"grandpa", collName:"Grandpa Collection",
-  price:26.95, img:"assets/img/products/grandpa-hikes.jpg", tag:"",
-  desc:"The grandpa motto, straight from Paco's adventure journal. Trail-tested, grandkid-approved.",
-  details:"Soft cotton blend · Classic men's fit · Sizes S–3XL"},
+  price:26.95, img:"assets/img/products/grandpa-hikes.jpg", tag:"", score:6.8, dark:true,
+  desc:"The grandpa motto, straight from Paco's adventure journal. Trail-tested, grandkid-approved. Shown on dark garment.",
+  details:"Soft cotton blend · Printed for dark garments", etsy:null, ebay:null},
+ {id:"grandma-mode", name:"'Grandma Mode: ON' Tee", coll:"grandma", collName:"Grandma Collection",
+  price:26.95, img:"assets/img/products/grandma-mode.jpg", tag:"NEW", score:7.5,
+  desc:"One switch, zero regrets. Grandma mode: activated. Snacks ready, rules optional.",
+  details:"Soft cotton blend · Relaxed women's fit · Sizes S–3XL", etsy:null, ebay:null},
+ {id:"grandma-days", name:"'More Good Days' Tee", coll:"grandma", collName:"Grandma Collection",
+  price:26.95, img:"assets/img/products/grandma-days.jpg", tag:"", score:8.0,
+  desc:"A flower-crowned wish for more good days — the kind grandmas specialize in manufacturing.",
+  details:"Soft cotton blend · Relaxed women's fit · Sizes S–3XL",
+  etsy:"https://www.etsy.com/listing/4575795563/llama-pajamas-adult-pajama-tee-more-good", ebay:null},
+ {id:"grandma-rest", name:"'Rest, Explore, Hug, Repeat' Tee", coll:"grandma", collName:"Grandma Collection",
+  price:26.95, img:"assets/img/products/grandma-rest.jpg", tag:"", score:7.5,
+  desc:"The daily rhythm, perfected: rest, explore, hug, repeat. Lola's life philosophy in four words.",
+  details:"Soft cotton blend · Relaxed women's fit · Sizes S–3XL", etsy:null, ebay:null},
+ {id:"grandma-hugs", name:"'Small Hugs, Big Joy' Tee", coll:"grandma", collName:"Grandma Collection",
+  price:26.95, img:"assets/img/products/grandma-hugs.jpg", tag:"", score:7.8,
+  desc:"Proof that the smallest hugs carry the biggest joy. A herd favorite for gift season.",
+  details:"Soft cotton blend · Relaxed women's fit · Sizes S–3XL",
+  etsy:"https://www.etsy.com/listing/4575814538/llama-pajamas-adult-pajama-tee-small", ebay:null},
+ {id:"grandpa-mode", name:"'Grandpa Mode: ON' Tee", coll:"grandpa", collName:"Grandpa Collection",
+  price:26.95, img:"assets/img/products/grandpa-mode.jpg", tag:"BEST SELLER", score:8.3,
+  desc:"Bold, clear, and proud — the grandpa uniform for adventure o'clock. Our top-scoring grandpa design.",
+  details:"Soft cotton blend · Classic men's fit · Sizes S–3XL", etsy:null, ebay:null},
+ {id:"grandpa-explorer", name:"'Little Explorer' Tee", coll:"grandpa", collName:"Grandpa Collection",
+  price:26.95, img:"assets/img/products/grandpa-explorer.jpg", tag:"TOP RATED", score:8.5,
+  desc:"For the grandkid who follows grandpa everywhere — mountains included. Lio's signature explorer look.",
+  details:"Soft cotton blend · Youth & adult sizes",
+  etsy:"https://www.etsy.com/listing/4575916255/llama-pajamas-little-explorer-infant", ebay:null},
+ {id:"grandpa-still", name:"'Still Exploring' Tee", coll:"grandpa", collName:"Grandpa Collection",
+  price:26.95, img:"assets/img/products/grandpa-still.jpg", tag:"", score:6.0, dark:true,
+  desc:"Age is just a number; the trail keeps calling. Shown on dark garment.",
+  details:"Soft cotton blend · Printed for dark garments", etsy:null, ebay:null},
+ {id:"kids-kindbrave", name:"'Kind, Brave, Creative You' Tee", coll:"kids", collName:"Kids Sets",
+  price:21.95, img:"assets/img/products/kids-kindbrave.jpg", tag:"TOP RATED", score:8.8,
+  desc:"Heart-shaped glasses, full-hearted kid. Our joint top-scoring design — Lulu's dreamy confidence, wearable daily.",
+  details:"100% ring-spun cotton · Classic fit · Sizes 4Y–14Y",
+  etsy:"https://www.etsy.com/listing/4575814294/llama-pajamas-kids-lounge-tee-kind-brave", ebay:null},
+ {id:"kids-explore", name:"'Explore More' Tee", coll:"kids", collName:"Kids Sets",
+  price:21.95, img:"assets/img/products/kids-explore.jpg", tag:"", score:6.8, dark:true,
+  desc:"Backpack on, sun out, curiosity maxed. Lio's explorer starter pack. Shown on dark garment.",
+  details:"100% ring-spun cotton · Printed for dark garments",
+  etsy:"https://www.etsy.com/listing/4575795657/llama-pajamas-adult-pajama-tee-explore", ebay:null},
+ {id:"kids-kindpeople", name:"'Kind People, Happier Days' Tee", coll:"kids", collName:"Kids Sets",
+  price:21.95, img:"assets/img/products/kids-kindpeople.jpg", tag:"", score:8.0,
+  desc:"Flower-crowned and kind-hearted — the Lola lesson every kid should wear.",
+  details:"100% ring-spun cotton · Classic fit · Sizes 4Y–14Y", etsy:null, ebay:null},
+ {id:"kids-naps", name:"'Good Things Take Naps' Tee", coll:"kids", collName:"Kids Sets",
+  price:21.95, img:"assets/img/products/kids-naps.jpg", tag:"TOP RATED", score:8.8,
+  desc:"The herd's core philosophy, scientifically unproven but universally felt. Peak sleepy-llama energy.",
+  details:"100% ring-spun cotton · Classic fit · Sizes 4Y–14Y",
+  etsy:"https://www.etsy.com/listing/4575916211/llama-pajamas-good-things-take-naps", ebay:null},
+ {id:"kids-dreamexplore", name:"'Dream, Explore, Be Kind' Tee", coll:"kids", collName:"Kids Sets",
+  price:21.95, img:"assets/img/products/kids-dreamexplore.jpg", tag:"TOP RATED", score:8.8,
+  desc:"The three-word herd manifesto. Clean, on-brand, and our joint top scorer — this one belongs on every kid.",
+  details:"100% ring-spun cotton · Classic fit · Sizes 4Y–14Y",
+  etsy:"https://www.etsy.com/listing/4575795141/llama-pajamas-kids-lounge-tee-dream", ebay:null},
+ {id:"mens-pajama-pants", name:"Men's Pajama Pants — All Over Print", coll:"alo-chill", collName:"Alo Chill",
+  price:53.99, img:"assets/img/products/mens-pajama-pants.jpg", tag:"BEST SELLER", score:8.0,
+  desc:"All-over llama print pajama pants in rich espresso — the grown-up herd uniform. Live now on eBay and Etsy.",
+  details:"Men's sizes · All-over print · Ships from print partner",
+  etsy:"https://www.etsy.com/listing/4575733534/llama-pajamas-mens-pajama-pants-all-over",
+  ebay:"https://www.ebay.com/itm/128082694018"},
+ {id:"kids-lounge-pants", name:"Kids Lounge Pants — All Over Print", coll:"kids", collName:"Kids Sets",
+  price:45.99, img:"assets/img/products/kids-lounge-pants.jpg", tag:"BEST SELLER", score:8.0,
+  desc:"All-over llama print lounge pants for little dreamers. Live now on eBay and Etsy.",
+  details:"Kids sizes · All-over print · Ships from print partner",
+  etsy:"https://www.etsy.com/listing/4575733292/llama-pajamas-kids-lounge-pants-all-over",
+  ebay:"https://www.ebay.com/itm/128082694682"},
 ];
 
 const HERD = [
@@ -79,47 +151,16 @@ const QUOTES = [
  {t:"Llama Pajamas cracked the code: matching family sets everyone actually wants to wear.", s:"The Cozy Parent"},
 ];
 
-/* ---- cart ---- */
-const cart = JSON.parse(localStorage.getItem("lp_cart")||"[]");
-function saveCart(){ localStorage.setItem("lp_cart", JSON.stringify(cart)); renderCart(); }
-function addToCart(id, size, qty){
-  const p = PRODUCTS.find(x=>x.id===id); if(!p) return;
-  const line = cart.find(x=>x.id===id && x.size===size);
-  if(line) line.qty += qty; else cart.push({id, size, qty});
-  saveCart(); openDrawer();
-}
-function setQty(i, d){
-  cart[i].qty += d;
-  if(cart[i].qty<=0) cart.splice(i,1);
-  saveCart();
-}
-function cartTotal(){ return cart.reduce((s,l)=>{ const p=PRODUCTS.find(x=>x.id===l.id); return s+p.price*l.qty; },0); }
-function renderCart(){
-  const box = document.getElementById("cartItems");
-  const n = cart.reduce((s,l)=>s+l.qty,0);
-  document.querySelectorAll(".cart-count").forEach(e=>e.textContent=n);
-  if(!box) return;
-  if(!cart.length){ box.innerHTML = '<div class="empty-cart">Your cart is empty.<br>The herd is waiting… 🦙</div>'; }
-  else box.innerHTML = cart.map((l,i)=>{
-    const p = PRODUCTS.find(x=>x.id===l.id);
-    return `<div class="ci"><img src="${p.img}" alt="">
-      <div><div class="n">${p.name}</div><div class="p">Size ${l.size} · $${p.price.toFixed(2)}</div>
-      <div class="q"><button onclick="setQty(${i},-1)">−</button><span>${l.qty}</span><button onclick="setQty(${i},1)">+</button></div></div></div>`;
-  }).join("");
-  const t = document.getElementById("cartTotal");
-  if(t) t.textContent = "$"+cartTotal().toFixed(2);
-}
-function openDrawer(){ document.getElementById("drawer").classList.add("open"); document.getElementById("scrim").classList.add("on"); }
-function closeDrawer(){ document.getElementById("drawer").classList.remove("open"); document.getElementById("scrim").classList.remove("on"); }
-
 /* ---- shared chrome ---- */
 function header(active){
-  return `<div class="announce">🦙 <b>LAUNCH DROP IS LIVE</b> — Free shipping on orders over $50 · One herd. A million dreams.</div>
+  return `<div class="announce">🦙 <b>SHOP THE REAL DROP</b> — Buy live on <a href="${ETSY_SHOP}" target="_blank" rel="noopener" style="text-decoration:underline;color:#fff">Etsy</a> & eBay · One herd. A million dreams.</div>
   <header class="site"><div class="nav">
     <a class="brand" href="index.html"><img src="assets/img/logo.png" alt="Llama Pajamas"><span>LLAMA PAJAMAS<small>ONE HERD · A MILLION DREAMS</small></span></a>
+    <button class="menu-btn" onclick="document.querySelector('nav.links').classList.toggle('open')" aria-label="Menu">☰</button>
     <nav class="links">
       <a href="shop.html?c=new" class="${active==='new'?'active':''}">New</a>
       <a href="shop.html?c=bestsellers" class="${active==='best'?'active':''}">Best Sellers</a>
+      <a href="shop.html?c=toprated" class="${active==='top'?'active':''}">Top Rated</a>
       <a href="shop.html?c=kids" class="${active==='kids'?'active':''}">Kids</a>
       <a href="shop.html?c=grandma" class="${active==='grandma'?'active':''}">Grandma</a>
       <a href="shop.html?c=grandpa" class="${active==='grandpa'?'active':''}">Grandpa</a>
@@ -127,45 +168,43 @@ function header(active){
       <a href="shop.html" class="${active==='shop'?'active':''}">Shop All</a>
     </nav>
     <div class="nav-right">
-      <button class="icon-btn" onclick="openDrawer()" aria-label="Cart">🛒<span class="cart-count">0</span></button>
+      <a class="btn" style="padding:10px 22px;font-size:13.5px" href="${ETSY_SHOP}" target="_blank" rel="noopener">Shop on Etsy</a>
     </div>
   </div></header>`;
 }
 function footer(){
   return `<footer><div class="foot">
     <div><div class="foot-brand">🦙 LLAMA PAJAMAS™</div>
-      <p>One herd. A million dreams. Original llama characters on buttery-soft apparel for the whole family — printed to order, zero waste.</p></div>
-    <div><h4>Shop</h4><a href="shop.html?c=new">New Arrivals</a><a href="shop.html?c=bestsellers">Best Sellers</a><a href="shop.html?c=kids">Kids Sets</a><a href="shop.html">Shop All</a></div>
+      <p>One herd. A million dreams. Original llama characters on buttery-soft apparel for the whole family — printed to order, zero waste.</p>
+      <p style="margin-top:10px"><a href="${ETSY_SHOP}" target="_blank" rel="noopener" style="display:inline">🛒 Etsy shop</a> · <a href="https://www.ebay.com/itm/128082694018" target="_blank" rel="noopener" style="display:inline">eBay listing</a></p></div>
+    <div><h4>Shop</h4><a href="shop.html?c=new">New Arrivals</a><a href="shop.html?c=bestsellers">Best Sellers</a><a href="shop.html?c=toprated">Top Rated</a><a href="shop.html?c=kids">Kids Sets</a></div>
     <div><h4>Brand</h4><a href="herd.html">Meet the Herd</a><a href="index.html#promise">The Llama Promise</a><a href="index.html#story">Our Story</a></div>
     <div><h4>Help</h4><a href="#" onclick="return false">Shipping & Returns</a><a href="#" onclick="return false">Size Guide</a><a href="#" onclick="return false">Contact</a></div>
-  </div><div class="copy">© 2026 Llama Pajamas™ · One herd. A million dreams. · Demo storefront — checkout coming soon.</div></footer>
-  <div class="demo-note">🚧 Demo storefront — checkout opens soon. Join the newsletter for launch-day access.</div>`;
-}
-function drawer(){
-  return `<div class="scrim" id="scrim" onclick="closeDrawer()"></div>
-  <aside class="drawer" id="drawer">
-    <header><h3>Your Cart 🦙</h3><button class="icon-btn" onclick="closeDrawer()">✕</button></header>
-    <div class="items" id="cartItems"></div>
-    <div class="foot2"><div style="display:flex;justify-content:space-between;font-weight:800;margin-bottom:12px"><span>Subtotal</span><span id="cartTotal">$0.00</span></div>
-    <button class="btn" style="width:100%" onclick="alert('Checkout opens soon — join the newsletter for launch-day access! 🦙')">Checkout →</button>
-    <p style="font-size:12.5px;color:var(--ink-soft);text-align:center;margin-top:10px">Demo mode — no payment is taken yet.</p></div>
-  </aside>`;
+  </div><div class="copy">© 2026 Llama Pajamas™ · One herd. A million dreams. · Real listings on Etsy & eBay.</div></footer>`;
 }
 function cardHTML(p){
   return `<div class="card" onclick="location.href='product.html?id=${p.id}'">
     <div class="ph"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
     <div class="inf">${p.tag?`<div class="tag">${p.tag}</div>`:""}<h3>${p.name}</h3>
-    <div class="price">$${p.price.toFixed(2)}</div></div></div>`;
+    <div class="price">from $${p.price.toFixed(2)}</div>
+    <div style="font-size:12px;color:var(--terra);font-weight:700;margin-top:4px">${p.etsy||p.ebay?"✓ Buy live":"○ Coming soon"}</div></div></div>`;
+}
+function buyButtons(p){
+  let h = "";
+  if(p.etsy) h += `<a class="btn" style="flex:1;text-align:center" href="${p.etsy}" target="_blank" rel="noopener">Buy on Etsy →</a>`;
+  if(p.ebay) h += `<a class="btn navy" style="flex:1;text-align:center" href="${p.ebay}" target="_blank" rel="noopener">Buy on eBay →</a>`;
+  if(!p.etsy && !p.ebay) h += `<a class="btn" style="flex:1;text-align:center" href="${ETSY_SHOP}" target="_blank" rel="noopener">Find on Etsy →</a>`;
+  return `<div style="display:flex;gap:10px;flex-wrap:wrap;margin:18px 0">${h}</div>
+  <p style="font-size:12.5px;color:var(--ink-soft)">✓ Real listing — checkout happens securely on ${p.ebay?"eBay / ":""}Etsy. Prices shown are "from" prices; the final price is on the listing.</p>`;
 }
 function inject(active){
   document.getElementById("site-header").innerHTML = header(active);
   document.getElementById("site-footer").innerHTML = footer();
-  document.body.insertAdjacentHTML("beforeend", drawer());
-  renderCart();
 }
 function filterProducts(c){
   if(!c || c==="all") return PRODUCTS;
   if(c==="new") return PRODUCTS.filter(p=>p.tag==="NEW");
   if(c==="bestsellers") return PRODUCTS.filter(p=>p.tag==="BEST SELLER");
+  if(c==="toprated") return PRODUCTS.filter(p=>(p.score||0)>=8.5);
   return PRODUCTS.filter(p=>p.coll===c);
 }
