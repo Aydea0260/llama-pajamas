@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product — Llama Pajamas™</title>
+<link rel="icon" href="assets/img/logo.png">
+<link rel="stylesheet" href="assets/css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="site-header"></div>
+<div class="wrap">
+  <div class="crumbs"><a href="index.html">Home</a> / <a href="shop.html">Shop</a> / <span id="crumbP">Product</span></div>
+  <div class="pdp" id="pdp"></div>
+  <div class="sec"><h2>You may also like</h2></div>
+  <div class="grid" id="relGrid"></div>
+</div>
+<div id="site-footer"></div>
+<script src="assets/js/app.js"></script>
+<script>
+inject("shop");
+const id = new URLSearchParams(location.search).get("id");
+const p = PRODUCTS.find(x=>x.id===id) || PRODUCTS[0];
+document.title = p.name + " — Llama Pajamas™";
+document.getElementById("crumbP").textContent = p.name;
+const SIZES = p.coll==="kids" ? ["2T","4T","6Y","8Y","10Y","12Y","14Y"]
+  : p.coll.startsWith("grand") ? ["S","M","L","XL","2XL","3XL"]
+  : ["2T","4T","6Y","8Y","10Y","12Y","XS","S","M","L","XL","XXL"];
+let size = SIZES[3], qty = 1;
+document.getElementById("pdp").innerHTML = `
+  <div class="gal"><img src="${p.img}" alt="${p.name}"></div>
+  <div>
+    ${p.tag?`<div class="tag" style="font-size:12px;font-weight:800;letter-spacing:1.5px;color:var(--terra)">${p.tag}</div>`:""}
+    <h1>${p.name}</h1>
+    <div class="price">$${p.price.toFixed(2)}</div>
+    <div class="stars" style="color:var(--gold)">★★★★★ <span style="color:var(--ink-soft);font-size:13px">4.9 · 300+ reviews</span></div>
+    <p class="desc">${p.desc}</p>
+    <div style="font-weight:800;font-size:13px;letter-spacing:1px">SIZE — <span style="color:var(--terra)" id="sizeLabel">${size}</span></div>
+    <div class="sizes" id="sizeRow">${SIZES.map(s=>`<button class="size ${s===size?'sel':''}" onclick="pickSize('${s}')">${s}</button>`).join("")}</div>
+    <div class="qtyrow">
+      <div class="q"><button onclick="chQty(-1)">−</button><span id="qtyN">1</span><button onclick="chQty(1)">+</button></div>
+      <button class="btn" style="flex:1" onclick="addToCart('${p.id}',size,qty)">Add to Cart — $${p.price.toFixed(2)}</button>
+    </div>
+    <div class="meta"><b>Fabric:</b> ${p.details}<br><b>Shipping:</b> Free over $50 · printed to order in 3–5 days<br><b>Returns:</b> 30-day cozy guarantee 🦙</div>
+  </div>`;
+function pickSize(s){ size=s; document.getElementById("sizeLabel").textContent=s;
+  document.querySelectorAll(".size").forEach(b=>b.classList.toggle("sel", b.textContent===s)); }
+function chQty(d){ qty=Math.max(1,Math.min(9,qty+d)); document.getElementById("qtyN").textContent=qty; }
+document.getElementById("relGrid").innerHTML =
+  PRODUCTS.filter(x=>x.id!==p.id && x.coll===p.coll).concat(PRODUCTS.filter(x=>x.id!==p.id && x.coll!==p.coll)).slice(0,4).map(cardHTML).join("");
+</script>
+</body>
+</html>
