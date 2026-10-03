@@ -20,10 +20,10 @@
 <script src="assets/js/app.js"></script>
 <script>
 inject("shop");
-const FILTERS = [["all","Shop All"],["new","New"],["bestsellers","Best Sellers"],["alo-chill","Alo Chill"],["kids","Kids Sets"],["grandma","Grandma"],["grandpa","Grandpa"]];
+const FILTERS = [["all","Shop All"],["new","New"],["bestsellers","Best Sellers"],["toprated","Top Rated"],["alo-chill","Alo Chill"],["kids","Kids Sets"],["grandma","Grandma"],["grandpa","Grandpa"]];
 const params = new URLSearchParams(location.search);
 let cur = params.get("c") || "all";
-const TITLES = {all:["Shop All","Every design. Every llama. One herd."],new:["New Arrivals","Fresh drops from the herd."],bestsellers:["Best Sellers","The herd's all-time favorites."],"alo-chill":["Alo Chill","Lumi & Puff lead the chillest capsule."],kids:["Kids Sets","Bedtime heroes for little dreamers."],grandma:["Grandma Collection","Powered by love, hugs & no bedtime rules."],grandpa:["Grandpa Collection","Trail-tested, grandkid-approved."]};
+const TITLES = {all:["Shop All","Every design. Every llama. One herd."],new:["New Arrivals","Fresh drops from the herd."],bestsellers:["Best Sellers","The herd's all-time favorites."],toprated:["Top Rated","Designs scoring 8.5+ on clarity, character & appeal."],"alo-chill":["Alo Chill","Lumi & Puff lead the chillest capsule."],kids:["Kids Sets","Bedtime heroes for little dreamers."],grandma:["Grandma Collection","Powered by love, hugs & no bedtime rules."],grandpa:["Grandpa Collection","Trail-tested, grandkid-approved."]};
 function renderFilters(){
   document.getElementById("filters").innerHTML = FILTERS.map(f=>
     `<button class="chip ${cur===f[0]?'sel':''}" onclick="setF('${f[0]}')">${f[1]}</button>`).join("");
