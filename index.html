@@ -4,10 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Llama Pajamas™ — One herd. A million dreams.</title>
-<meta name="description" content="Llama Pajamas™ — original llama characters on buttery-soft apparel for the whole family. Meet Paco, Lola, Lumi, Lio, Lulu & Puff.">
+<meta name="description" content="Llama Pajamas™ — original llama characters on buttery-soft apparel for the whole family. Meet Paco, Lola, Lumi, Lio, Lulu & Puff. Buy live on Etsy & eBay.">
+<meta property="og:title" content="Llama Pajamas™ — One herd. A million dreams.">
+<meta property="og:description" content="Original llama characters on buttery-soft apparel. Buy live on Etsy & eBay.">
+<meta property="og:image" content="https://aydea0260.github.io/llama-pajamas/assets/img/hero.jpg">
+<meta property="og:url" content="https://aydea0260.github.io/llama-pajamas/">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/img/logo.png">
 <link rel="stylesheet" href="assets/css/style.css">
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ClothingStore","name":"Llama Pajamas™",
+ "slogan":"One herd. A million dreams.","url":"https://aydea0260.github.io/llama-pajamas/",
+ "sameAs":["https://www.etsy.com/shop/LatticeEcommerce"]}
+</script>
 </head>
 <body>
 <div id="site-header"></div>
@@ -18,7 +28,8 @@
   <div class="hero-overlay"><div class="hero-copy">
     <h1>One herd.<br>A million dreams.</h1>
     <p>Meet the six llamas turning bedtime into the best time — on the softest tees your family will ever fight over.</p>
-    <a class="btn" href="shop.html?c=new">Shop New Arrivals</a>
+    <a class="btn" href="shop.html?c=toprated">Shop Top Rated</a>
+    <a class="btn ghost" href="https://www.etsy.com/shop/LatticeEcommerce" target="_blank" rel="noopener" style="margin-left:8px">Buy on Etsy</a>
   </div></div>
 </section>
 
@@ -34,17 +45,22 @@
   <div class="badges">
     <div class="badge"><span class="em">🦙</span>Six original characters, one lovable herd</div>
     <div class="badge"><span class="em">☁️</span>Buttery-soft premium cotton</div>
-    <div class="badge"><span class="em">🌱</span>Printed to order — zero waste</div>
+    <div class="badge"><span class="em">🛒</span>Real listings on Etsy & eBay</div>
     <div class="badge"><span class="em">👨‍👩‍👧‍👦</span>Matching sets for the whole family</div>
   </div>
+
+  <!-- TOP RATED -->
+  <div class="sec"><h2>⭐ Top rated by design score</h2><p>Every design scored on clarity, character fit & commercial appeal. These are the 8.5+.</p></div>
+  <div class="grid" id="topGrid"></div>
 
   <!-- PRESS QUOTES -->
   <div class="sec"><h2>Everyone's talking about the herd</h2></div>
   <div class="quotes" id="quotes"></div>
 
   <!-- REVIEWS -->
-  <div class="sec"><h2>⭐ Loved by the herd <span style="font-size:16px;color:var(--ink-soft)">4.9/5 from 2,300+ happy families</span></h2></div>
-  <div class="quotes" id="reviews" style="grid-template-columns:repeat(5,1fr)"></div>
+  <div class="sec"><h2>⭐ Loved by the herd <span style="font-size:16px;color:var(--ink-soft)">4.9/5 from 2,300+ happy families</span></h2>
+  <p style="font-size:12.5px;color:var(--ink-soft)">Sample reviews — real customer reviews publish with the listings.</p></div>
+  <div class="quotes reviews5" id="reviews"></div>
 
   <!-- STORY -->
   <div class="story" id="story">
@@ -60,7 +76,7 @@
   <!-- SHOP BY COLLECTION -->
   <div class="sec"><h2>Shop by collection</h2><p>No boy-aisle / girl-aisle nonsense — every pattern is made for the whole family.</p></div>
   <div class="tiles">
-    <div class="tile" onclick="location.href='shop.html?c=kids'"><img src="assets/img/products/good-ideas.jpg" alt="Kids Sets"><span>Kids Sets →</span></div>
+    <div class="tile" onclick="location.href='shop.html?c=kids'"><img src="assets/img/products/kids-kindbrave.jpg" alt="Kids Sets"><span>Kids Sets →</span></div>
     <div class="tile" onclick="location.href='shop.html?c=grandma'"><img src="assets/img/products/grandma-love.jpg" alt="Grandma Collection"><span>Grandma →</span></div>
     <div class="tile" onclick="location.href='shop.html?c=grandpa'"><img src="assets/img/products/grandpa-best.jpg" alt="Grandpa Collection"><span>Grandpa →</span></div>
   </div>
@@ -68,7 +84,7 @@
   <!-- NEW ARRIVALS -->
   <div class="sec"><h2>New arrivals</h2><p>Fresh from the Alo Chill capsule — Lumi & Puff lead the drop.</p></div>
   <div class="grid" id="newGrid"></div>
-  <div style="text-align:center;margin:6px 0 10px"><a class="btn ghost" href="shop.html">Shop All →</a></div>
+  <div style="text-align:center;margin:6px 0 10px"><a class="btn ghost" href="shop.html">Shop All 26 →</a></div>
 
   <!-- PROMISE -->
   <div class="promise" id="promise">
@@ -91,11 +107,12 @@
 <div id="site-footer"></div>
 <script src="assets/js/app.js"></script>
 <script>
-inject("new");
+inject();
 document.getElementById("quotes").innerHTML = QUOTES.map(q=>
   `<div class="quote">"${q.t}"<b>— ${q.s}</b></div>`).join("");
 document.getElementById("reviews").innerHTML = REVIEWS.map(r=>
   `<div class="quote">★★★★★<br>"${r.t}"<b>— ${r.n}</b></div>`).join("");
+document.getElementById("topGrid").innerHTML = filterProducts("toprated").slice(0,4).map(cardHTML).join("");
 document.getElementById("newGrid").innerHTML =
   filterProducts("new").concat(PRODUCTS.filter(p=>p.tag==="BEST SELLER")).slice(0,4).map(cardHTML).join("");
 </script>
