@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop All — Llama Pajamas™</title>
+<link rel="icon" href="assets/img/logo.png">
+<link rel="stylesheet" href="assets/css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="site-header"></div>
+<div class="wrap">
+  <div class="crumbs"><a href="index.html">Home</a> / <span id="crumb">Shop All</span></div>
+  <div class="sec"><h2 id="shopTitle">Shop All</h2><p id="shopSub">Every design. Every llama. One herd.</p></div>
+  <div class="filters" id="filters"></div>
+  <div class="grid" id="shopGrid"></div>
+</div>
+<div id="site-footer"></div>
+<script src="assets/js/app.js"></script>
+<script>
+inject("shop");
+const FILTERS = [["all","Shop All"],["new","New"],["bestsellers","Best Sellers"],["alo-chill","Alo Chill"],["kids","Kids Sets"],["grandma","Grandma"],["grandpa","Grandpa"]];
+const params = new URLSearchParams(location.search);
+let cur = params.get("c") || "all";
+const TITLES = {all:["Shop All","Every design. Every llama. One herd."],new:["New Arrivals","Fresh drops from the herd."],bestsellers:["Best Sellers","The herd's all-time favorites."],"alo-chill":["Alo Chill","Lumi & Puff lead the chillest capsule."],kids:["Kids Sets","Bedtime heroes for little dreamers."],grandma:["Grandma Collection","Powered by love, hugs & no bedtime rules."],grandpa:["Grandpa Collection","Trail-tested, grandkid-approved."]};
+function renderFilters(){
+  document.getElementById("filters").innerHTML = FILTERS.map(f=>
+    `<button class="chip ${cur===f[0]?'sel':''}" onclick="setF('${f[0]}')">${f[1]}</button>`).join("");
+}
+function setF(c){ cur=c; const t=TITLES[c]||TITLES.all;
+  document.getElementById("shopTitle").textContent=t[0];
+  document.getElementById("shopSub").textContent=t[1];
+  document.getElementById("crumb").textContent=t[0];
+  renderFilters();
+  document.getElementById("shopGrid").innerHTML = filterProducts(c).map(cardHTML).join("");
+  history.replaceState(null,"","shop.html?c="+c);
+}
+setF(cur);
+</script>
+</body>
+</html>
